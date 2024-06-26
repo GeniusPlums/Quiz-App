@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from './QuizApp.module.css';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 
 interface Option {
@@ -99,6 +100,138 @@ const questions: Question[] = [
   }
 ];
 
+// Define color palette
+const colors = {
+  primary: '#6200EE',
+  secondary: '#03DAC6',
+  background: '#121212',
+  surface: '#1E1E1E',
+  error: '#CF6679',
+  onPrimary: '#FFFFFF',
+  onSecondary: '#000000',
+  onBackground: '#FFFFFF',
+  onSurface: '#FFFFFF',
+  onError: '#000000',
+};
+
+// Define animations
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+`;
+
+// Define global styles
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: ${colors.background};
+    color: ${colors.onBackground};
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+`;
+
+// Styled components
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  animation: ${fadeIn} 0.5s ease-out;
+`;
+
+const Title = styled.h1`
+  font-size: 3rem;
+  color: ${colors.primary};
+  margin-bottom: 2rem;
+  text-align: center;
+`;
+
+const QuizContainer = styled.div`
+  background-color: ${colors.surface};
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  animation: ${slideIn} 0.5s ease-out;
+`;
+
+const Question = styled.h2`
+  font-size: 1.5rem;
+  color: ${colors.onSurface};
+  margin-bottom: 1rem;
+`;
+
+const Timer = styled.p`
+  font-size: 1rem;
+  color: ${colors.secondary};
+  margin-bottom: 1rem;
+`;
+
+const OptionButton = styled.button`
+  background-color: ${colors.primary};
+  color: ${colors.onPrimary};
+  border: none;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+
+  &:hover {
+    background-color: ${colors.secondary};
+    color: ${colors.onSecondary};
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const ResultContainer = styled.div`
+  text-align: center;
+`;
+
+const ScoreMeter = styled.div`
+  width: 100%;
+  height: 20px;
+  background-color: ${colors.surface};
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+`;
+
+const ScoreFill = styled.div<{ width: string; color: string }>`
+  width: ${props => props.width};
+  height: 100%;
+  background-color: ${props => props.color};
+  transition: width 0.5s ease-out, background-color 0.5s ease-out;
+`;
+
+const ScoreRanges = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 5px;
+`;
+
+const ScoreRange = styled.span`
+  font-weight: bold;
+`;
+
+// Main component
 export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -129,9 +262,9 @@ export default function Home() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 60) return '#4CAF50'; // Green for high scores
-    if (score >= 30) return '#FFC107'; // Yellow for medium scores
-    return '#F44336'; // Red for low scores
+    if (score >= 60) return colors.secondary;
+    if (score >= 30) return '#FFC107';
+    return colors.error;
   };
 
   const getScoreWidth = (score: number) => {
@@ -139,43 +272,37 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.container}>
-      <main>
-        <h1 className={styles.title}>Quiz App</h1>
-
-        {!quizEnded ? (
-          <div className={styles.quiz}>
-            <h2>{questions[currentQuestion].question}</h2>
-            <p>Time left: {timeLeft} seconds</p>
-            <div className={styles.options}>
+    <>
+      <GlobalStyle />
+      <Container>
+        <Title>Ultimate Quiz Challenge</Title>
+        <QuizContainer>
+          {!quizEnded ? (
+            <>
+              <Question>{questions[currentQuestion].question}</Question>
+              <Timer>Time left: {timeLeft} seconds</Timer>
               {questions[currentQuestion].options.map((option, index) => (
-                <button key={index} onClick={() => handleAnswer(option.points)}>
+                <OptionButton key={index} onClick={() => handleAnswer(option.points)}>
                   {option.text}
-                </button>
+                </OptionButton>
               ))}
-            </div>
-          </div>
-        ) : (
-          <div className={styles.result}>
-            <h2>Quiz completed!</h2>
-            <p>Your total score: {score} points</p>
-            <div className={styles.scoreMeter}>
-              <div 
-                className={styles.scoreFill} 
-                style={{ 
-                  width: getScoreWidth(score), 
-                  backgroundColor: getScoreColor(score) 
-                }}
-              ></div>
-            </div>
-            <div className={styles.scoreRanges}>
-              <span style={{ color: '#F44336' }}>No addictions</span>
-              <span style={{ color: '#FFC107' }}></span>
-              <span style={{ color: '#4CAF50' }}>More likely to have addiction</span>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
+            </>
+          ) : (
+            <ResultContainer>
+              <h2>Quiz completed!</h2>
+              <p>Your total score: {score} points</p>
+              <ScoreMeter>
+                <ScoreFill width={getScoreWidth(score)} color={getScoreColor(score)} />
+              </ScoreMeter>
+              <ScoreRanges>
+                <ScoreRange style={{ color: colors.error }}>0-30</ScoreRange>
+                <ScoreRange style={{ color: '#FFC107' }}>30-60</ScoreRange>
+                <ScoreRange style={{ color: colors.secondary }}>60+</ScoreRange>
+              </ScoreRanges>
+            </ResultContainer>
+          )}
+        </QuizContainer>
+      </Container>
+    </>
   );
 }
