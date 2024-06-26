@@ -17,34 +17,85 @@ interface Question {
 
 const questions: Question[] = [
   {
-    question: "What is the capital of France?",
+    question: "When you feel stressed or anxious, what is your typical response?",
     options: [
-      { text: "London", points: 0 },
-      { text: "Berlin", points: 0 },
-      { text: "Paris", points: 10 },
-      { text: "Madrid", points: 0 }
+      { text: "Seek social support or talk to someone", points: 0 },
+      { text: "Engage in a hobby or activity you enjoy", points: 0 },
+      { text: "Use substances (alcohol, drugs) to relax or cope", points: 5 },
     ],
-    timeLimit: 15
+    timeLimit: 35
   },
   {
-    question: "Which planet is known as the Red Planet?",
+    question: "What happens when you try to cut down or stop using substances?",
     options: [
-      { text: "Venus", points: 0 },
-      { text: "Mars", points: 10 },
-      { text: "Jupiter", points: 0 },
-      { text: "Saturn", points: 0 }
+      { text: "You can easily cut down or stop without experiencing discomfort", points: 0 },
+      { text: "You experience some difficulty but can manage to cut down or stop", points: 5 },
+      { text: "You find it extremely difficult and experience strong cravings or withdrawal symptoms", points: 10 },
     ],
-    timeLimit: 10
+    timeLimit: 35
   },
   {
-    question: "What is the largest mammal?",
+    question: "How does substance use affect your relationships or responsibilities?",
     options: [
-      { text: "African Elephant", points: 5 },
-      { text: "Blue Whale", points: 10 },
-      { text: "Giraffe", points: 0 },
-      { text: "Hippopotamus", points: 0 }
+      { text: "It has little to no impact on my relationships or responsibilities", points: 0 },
+      { text: "It sometimes causes conflicts or affects my responsibilities mildly", points: 5 },
+      { text: "It frequently causes conflicts, strains relationships, or affects my responsibilities significantly", points: 10 },
     ],
-    timeLimit: 20
+    timeLimit: 35
+  },
+  {
+    question: "How do you feel about your substance use habits?",
+    options: [
+      { text: "I feel in control and make conscious choices", points: 5 },
+      { text: "I sometimes feel concerned but believe I can manage", points: 5 },
+      { text: "I feel worried or believe I may have a problem", points: 10 },
+    ],
+    timeLimit: 35
+  },
+  {
+    question: "How much time do you spend obtaining, using, or recovering from the effects of substances?",
+    options: [
+      { text: "It takes up very little of my time", points: 5 },
+      { text: "It takes up some time, but it's manageable", points: 10 },
+      { text: "It takes up a significant amount of my time", points: 15 },
+    ],
+    timeLimit: 35
+  },
+  {
+    question: "How do you react when someone expresses concern about your substance use?",
+    options: [
+      { text: "I am open to discussing it and considering their perspective", points: 0 },
+      { text: "I may feel defensive but can understand their point of view", points: 5 },
+      { text: "I become upset, dismissive, or avoid discussing", points: 15 },
+    ],
+    timeLimit: 35
+  },
+  {
+    question: "Have you experienced negative consequences related to your substance use (e.g., legal issues, health problems, financial difficulties)?",
+    options: [
+      { text: "No, I have not experienced any negative consequences", points: 0 },
+      { text: "I have experienced occasional negative consequences", points: 5 },
+      { text: "I have experienced multiple or severe negative consequences", points: 15 },
+    ],
+    timeLimit: 35
+  },
+  {
+    question: "How do you feel physically and emotionally when you haven't used substances for a period of time?",
+    options: [
+      { text: "I feel physically and emotionally stable", points: 0 },
+      { text: "I may feel some discomfort or irritability, but it's manageable", points: 5 },
+      { text: "I experience strong physical or emotional cravings, discomfort, or withdrawal symptoms", points: 15 },
+    ],
+    timeLimit: 35
+  },
+  {
+    question: "What motivates you to use substances?",
+    options: [
+      { text: "Socializing or enhancing experiences", points: 10 },
+      { text: "Coping with stress, anxiety, or negative emotions", points: 10 },
+      { text: "Escaping from reality or avoiding problems", points: 10 },
+    ],
+    timeLimit: 35
   }
 ];
 
@@ -118,9 +169,9 @@ export default function Home() {
               ></div>
             </div>
             <div className={styles.scoreRanges}>
-              <span style={{ color: '#F44336' }}>0-30</span>
-              <span style={{ color: '#FFC107' }}>30-60</span>
-              <span style={{ color: '#4CAF50' }}>60+</span>
+              <span style={{ color: '#F44336' }}>No addictions</span>
+              <span style={{ color: '#FFC107' }}></span>
+              <span style={{ color: '#4CAF50' }}>More likely to have addiction</span>
             </div>
           </div>
         )}
