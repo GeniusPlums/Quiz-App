@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import styles from './QuizApp.module.css';
+
 
 interface Option {
   text: string;
@@ -75,16 +77,26 @@ export default function Home() {
     }
   };
 
+  const getScoreColor = (score: number) => {
+    if (score >= 60) return '#4CAF50'; // Green for high scores
+    if (score >= 30) return '#FFC107'; // Yellow for medium scores
+    return '#F44336'; // Red for low scores
+  };
+
+  const getScoreWidth = (score: number) => {
+    return `${Math.min(score, 100)}%`;
+  };
+
   return (
-    <div className="container">
+    <div className={styles.container}>
       <main>
-        <h1 className="title">Quiz App</h1>
+        <h1 className={styles.title}>Quiz App</h1>
 
         {!quizEnded ? (
-          <div className="quiz">
+          <div className={styles.quiz}>
             <h2>{questions[currentQuestion].question}</h2>
             <p>Time left: {timeLeft} seconds</p>
-            <div className="options">
+            <div className={styles.options}>
               {questions[currentQuestion].options.map((option, index) => (
                 <button key={index} onClick={() => handleAnswer(option.points)}>
                   {option.text}
@@ -93,9 +105,23 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="result">
+          <div className={styles.result}>
             <h2>Quiz completed!</h2>
             <p>Your total score: {score} points</p>
+            <div className={styles.scoreMeter}>
+              <div 
+                className={styles.scoreFill} 
+                style={{ 
+                  width: getScoreWidth(score), 
+                  backgroundColor: getScoreColor(score) 
+                }}
+              ></div>
+            </div>
+            <div className={styles.scoreRanges}>
+              <span style={{ color: '#F44336' }}>0-30</span>
+              <span style={{ color: '#FFC107' }}>30-60</span>
+              <span style={{ color: '#4CAF50' }}>60+</span>
+            </div>
           </div>
         )}
       </main>
