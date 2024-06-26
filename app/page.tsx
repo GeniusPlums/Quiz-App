@@ -295,9 +295,9 @@ export default function Home() {
                 <ScoreFill width={getScoreWidth(score)} color={getScoreColor(score)} />
               </ScoreMeter>
               <ScoreRanges>
-                <ScoreRange style={{ color: colors.error }}>0-30</ScoreRange>
-                <ScoreRange style={{ color: '#FFC107' }}>30-60</ScoreRange>
-                <ScoreRange style={{ color: colors.secondary }}>60+</ScoreRange>
+                <ScoreRange style={{ color: colors.error }}>No addiction</ScoreRange>
+                <ScoreRange style={{ color: '#FFC107' }}>Normal</ScoreRange>
+                <ScoreRange style={{ color: colors.secondary }}>Most likely to have an addiction</ScoreRange>
               </ScoreRanges>
             </ResultContainer>
           )}
